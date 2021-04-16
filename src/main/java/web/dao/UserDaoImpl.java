@@ -44,4 +44,4 @@ public class UserDaoImpl implements UserDao {
         User user = query.getResultList().stream().findAny().orElse(null);
         entityManager.remove(user);
     }
-
+}

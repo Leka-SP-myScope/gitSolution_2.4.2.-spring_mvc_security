@@ -14,4 +14,3 @@ public interface UserDao {
 
     void deleteById(Long id);
 }
-
