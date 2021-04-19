@@ -2,9 +2,21 @@ package web.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "roles")
 public class Role implements GrantedAuthority {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "role")
     private String role;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "users_id")
+    private User user;
 
     public Role(Long id, String role) {
         this.id = id;
