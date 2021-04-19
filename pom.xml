@@ -18,6 +18,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <spring.version>5.3.5</spring.version>
+    <spring.security.version>5.4.5</spring.security.version>
   </properties>
 
   <dependencies>
@@ -37,13 +38,13 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
-      <version>5.4.5</version>
+      <version>${spring.security.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-config</artifactId>
-      <version>5.4.5</version>
+      <version>${spring.security.version}</version>
     </dependency>
 
     <dependency>
