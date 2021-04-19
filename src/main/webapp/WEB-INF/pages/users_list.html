@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>User_list</title>
+</head>
+<body>
+<div th:switch="${allUser}">
+    <h2 th:case="null">No users found!</h2>
+    <div th:case="*">
+        <h2>Users table</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Age</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="message : ${allUser}">
+                <td th:text="${message.name}"></td>
+                <td th:text="${message.surname}"></td>
+                <td th:text="${message.age}"></td>
+                <td><a th:href="@{user_update/{id}(id=${message.id})}">Update</a></td>
+                <td><a th:href="@{user_delete/{id}(id=${message.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p><a href="/user_create">Create user</a></p>
+</div>
+</body>
+</html>
