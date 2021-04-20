@@ -26,40 +26,40 @@ public class UserController {
         return "users_list";
     }
 
-    @GetMapping("/users")
+    @GetMapping("/user")
     public String getAllUser(Model model) {
         List<User> allUser = userService.getAllUser();
         model.addAttribute("allUser", allUser);
         return "users_list";
     }
 
-    @GetMapping("/user_create")
+    @GetMapping("/admin/user_create")
     public String createUserAndShow(User user) {
         return "user_create";
     }
 
-    @PostMapping("/user_create")
+    @PostMapping("/admin/user_create")
     public String createUser(User user) {
         userService.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/user";
     }
 
-    @GetMapping("/user_delete/{id}")
+    @GetMapping("/admin/user_delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteById(id);
-        return "redirect:/users";
+        return "redirect:/user";
     }
 
-    @GetMapping("/user_update/{id}")
+    @GetMapping("/admin/user_update/{id}")
     public String saveUserAndShow(@PathVariable("id") Long id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
         return "user_update";
     }
 
-    @PostMapping("/user_update")
+    @PostMapping("/admin/user_update")
     public String saveUser(User user) {
         userService.updateUser(user);
-        return "redirect:/users";
+        return "redirect:/user";
     }
 }
