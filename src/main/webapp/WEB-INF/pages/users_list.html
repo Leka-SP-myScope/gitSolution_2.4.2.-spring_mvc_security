@@ -22,13 +22,13 @@
                 <td th:text="${message.name}"></td>
                 <td th:text="${message.surname}"></td>
                 <td th:text="${message.age}"></td>
-                <td><a th:href="@{user_update/{id}(id=${message.id})}">Update</a></td>
-                <td><a th:href="@{user_delete/{id}(id=${message.id})}">Delete</a></td>
+                <td><a th:href="@{admin/user_update/{id}(id=${message.id})}">Update</a></td>
+                <td><a th:href="@{admin/user_delete/{id}(id=${message.id})}">Delete</a></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <p><a href="/user_create">Create user</a></p>
+    <p><a href="/admin/user_create">Create user</a></p>
 </div>
 </body>
 </html>
