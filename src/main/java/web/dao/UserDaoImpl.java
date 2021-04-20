@@ -1,18 +1,24 @@
 package web.dao;
 
 import org.springframework.stereotype.Repository;
+import web.model.Role;
 import web.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    private final Map<String, User> userMap = new HashMap<>();
 
     @Override
     public List<User> getAllUser() {
@@ -44,5 +50,19 @@ public class UserDaoImpl implements UserDao {
         query.setParameter("id", id);
         User user = query.getResultList().stream().findAny().orElse(null);
         entityManager.remove(user);
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        userMap.put("user",
+                new User(1L, "user", "Userov", "user", 18,
+                        Collections.singleton(new Role(1L, "ROLE_USER"))));
+        userMap.put("admin",
+                new User(2L, "admin", "Adminov", "admin", 23,
+                        Collections.singleton(new Role(2L, "ROLE_ADMIN"))));
+        if (!userMap.containsKey(name)) {
+            return null;
+        }
+        return userMap.get(name);
     }
 }
