@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>User_list</title>
@@ -14,7 +15,9 @@
             <tr>
                 <th>Name</th>
                 <th>Surname</th>
-                <th>Password</th>
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <th>Password</th>
+                </div>
                 <th>Age</th>
             </tr>
             </thead>
@@ -22,16 +25,20 @@
             <tr th:each="message : ${allUser}">
                 <td th:text="${message.name}"></td>
                 <td th:text="${message.surname}"></td>
-                <td th:text="${message.password}"></td>
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <td th:text="${message.password}"></td>
+                </div>
                 <td th:text="${message.age}"></td>
-                <td><a th:href="@{admin/user_update/{id}(id=${message.id})}">Update</a></td>
-                <td><a th:href="@{admin/user_delete/{id}(id=${message.id})}">Delete</a></td>
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <td><a th:href="@{admin/user_update/{id}(id=${message.id})}">Update</a></td>
+                    <td><a th:href="@{admin/user_delete/{id}(id=${message.id})}">Delete</a></td>
+                </div>
             </tr>
             </tbody>
         </table>
     </div>
     <div sec:authorize="hasRole('ROLE_ADMIN')">
-    <p><a href="/admin/user_create">Create user</a></p>
+        <p><a href="/admin/user_create">Create user</a></p>
     </div>
 </div>
 </body>
