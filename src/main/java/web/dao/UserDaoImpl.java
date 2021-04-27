@@ -5,12 +5,10 @@ import web.model.Role;
 import web.model.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -30,7 +28,8 @@ public class UserDaoImpl implements UserDao {
         TypedQuery<User> query = entityManager.createQuery(
                 "select u from User u where u.id = :id", User.class);
         query.setParameter("id", id);
-        return query.getResultList().stream().findAny().orElse(null);
+        Optional<User> optionalUser = Optional.of(query.getSingleResult());
+        return optionalUser.get();
     }
 
     @Override
