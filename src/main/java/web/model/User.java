@@ -29,7 +29,7 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Role> roles;
 
     public User() {

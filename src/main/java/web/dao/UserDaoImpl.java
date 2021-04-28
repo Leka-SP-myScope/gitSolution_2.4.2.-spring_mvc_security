@@ -1,14 +1,13 @@
 package web.dao;
 
 import org.springframework.stereotype.Repository;
-import web.model.Role;
 import web.model.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -16,20 +15,17 @@ public class UserDaoImpl implements UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private final Map<String, User> userMap = new HashMap<>();
-
     @Override
     public List<User> getAllUser() {
         return entityManager.createQuery("select u from User u", User.class).getResultList();
     }
 
     @Override
-    public User findById(Long id) {
+    public Optional<User> findById(Long id) {
         TypedQuery<User> query = entityManager.createQuery(
                 "select u from User u where u.id = :id", User.class);
         query.setParameter("id", id);
-        Optional<User> optionalUser = Optional.of(query.getSingleResult());
-        return optionalUser.get();
+        return Optional.of(query.getSingleResult());
     }
 
     @Override
@@ -53,15 +49,9 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByName(String name) {
-        userMap.put("user",
-                new User(1L, "user", "Userov", "user", 18,
-                        Collections.singleton(new Role(1L, "ROLE_USER"))));
-        userMap.put("admin",
-                new User(2L, "admin", "Adminov", "admin", 23,
-                        Collections.singleton(new Role(2L, "ROLE_ADMIN"))));
-        if (!userMap.containsKey(name)) {
-            return null;
-        }
-        return userMap.get(name);
+        TypedQuery<User> query = entityManager.createQuery(
+                "select u from User u where u.name = :name", User.class);
+        query.setParameter("name", name);
+        return query.getSingleResult();
     }
 }

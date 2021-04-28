@@ -7,6 +7,8 @@ import web.dao.UserDao;
 import web.model.User;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,8 +26,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByName(String name) {
+        return userDao.getUserByName(name);
+    }
+
+    @Override
     public User findById(Long id) {
-        return userDao.findById(id);
+        Optional<User> optionalUser = userDao.findById(id);
+        return optionalUser.orElseThrow(NoSuchElementException::new);
     }
 
     @Override
