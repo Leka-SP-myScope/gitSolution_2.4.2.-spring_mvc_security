@@ -4,9 +4,11 @@ import org.springframework.stereotype.Repository;
 import web.model.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Repository
@@ -25,7 +27,7 @@ public class UserDaoImpl implements UserDao {
         TypedQuery<User> query = entityManager.createQuery(
                 "select u from User u where u.id = :id", User.class);
         query.setParameter("id", id);
-        return Optional.of(query.getSingleResult());
+        return Optional.ofNullable(query.getSingleResult());
     }
 
     @Override
@@ -48,10 +50,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getUserByName(String name) {
+    public Optional<User> getUserByName(String name) {
         TypedQuery<User> query = entityManager.createQuery(
                 "select u from User u where u.name = :name", User.class);
-        query.setParameter("name", name);
-        return query.getSingleResult();
+        if(name != null) {
+            query.setParameter("name", name);
+            return Optional.ofNullable(query.getSingleResult());
+        }
+        throw new NoResultException("No name present");
     }
 }
