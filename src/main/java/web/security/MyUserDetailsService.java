@@ -5,10 +5,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import web.model.User;
 import web.service.UserService;
 
+import java.util.Optional;
+
 @Service
+@Transactional
 public class MyUserDetailsService implements UserDetailsService {
 
     private UserService userService;
@@ -20,11 +24,13 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User userCandidate = userService.getUserByName(username);
-        if (userCandidate == null) {
-            throw new UsernameNotFoundException("The entered user is incorrect: " + username);
+        Optional<User> userOptional = userService.getUserByName(username);
+        if (userOptional.isPresent()) {
+            User userCandidate = userOptional.get();
+            //return new org.springframework.security.core.userdetails.User(userCandidate.getName(),
+            return new User(userCandidate.getName(),
+                    userCandidate.getPassword(), userCandidate.getRoles());
         }
-        return new org.springframework.security.core.userdetails.User(userCandidate.getName(),
-                userCandidate.getPassword(), userCandidate.getAuthorities());
+        throw new UsernameNotFoundException("The entered user is incorrect: " + username);
     }
 }

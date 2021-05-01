@@ -29,10 +29,16 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Role> roles;
 
     public User() {
+    }
+
+    public User(String name, String password, Set<Role> roles) {
+        this.name = name;
+        this.password = password;
+        this.roles = roles;
     }
 
     public User(Long id, String name, String surname, String password, int age, Set<Role> roles) {
