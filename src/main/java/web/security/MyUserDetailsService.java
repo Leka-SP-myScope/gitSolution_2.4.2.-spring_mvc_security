@@ -12,7 +12,6 @@ import web.service.UserService;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class MyUserDetailsService implements UserDetailsService {
 
     private UserService userService;
