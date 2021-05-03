@@ -24,9 +24,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> userOptional = userService.getUserByName(username);
         if (userOptional.isPresent()) {
-            User userCandidate = userOptional.get();
-            return new User(userCandidate.getName(),
-                    userCandidate.getPassword(), userCandidate.getRoles());
+            return userOptional.get();
         }
         throw new UsernameNotFoundException("The entered user is incorrect: " + username);
     }
