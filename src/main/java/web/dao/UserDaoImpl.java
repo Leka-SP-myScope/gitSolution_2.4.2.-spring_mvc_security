@@ -13,8 +13,6 @@ import java.util.Optional;
 @Repository
 public class UserDaoImpl implements UserDao {
 
-    private static int count;
-
     @PersistenceContext
     private EntityManager entityManager;
 
