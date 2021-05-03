@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import web.model.User;
 import web.service.UserService;
 
@@ -26,7 +25,6 @@ public class MyUserDetailsService implements UserDetailsService {
         Optional<User> userOptional = userService.getUserByName(username);
         if (userOptional.isPresent()) {
             User userCandidate = userOptional.get();
-            //return new org.springframework.security.core.userdetails.User(userCandidate.getName(),
             return new User(userCandidate.getName(),
                     userCandidate.getPassword(), userCandidate.getRoles());
         }

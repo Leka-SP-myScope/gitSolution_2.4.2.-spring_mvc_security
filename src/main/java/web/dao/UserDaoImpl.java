@@ -8,11 +8,12 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Repository
 public class UserDaoImpl implements UserDao {
+
+    private static int count;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -26,8 +27,11 @@ public class UserDaoImpl implements UserDao {
     public Optional<User> findById(Long id) {
         TypedQuery<User> query = entityManager.createQuery(
                 "select u from User u where u.id = :id", User.class);
-        query.setParameter("id", id);
-        return Optional.ofNullable(query.getSingleResult());
+        if (id != null) {
+            query.setParameter("id", id);
+            return Optional.ofNullable(query.getSingleResult());
+        }
+        throw new NoResultException("No User by: " + id + " present");
     }
 
     @Override
@@ -53,10 +57,10 @@ public class UserDaoImpl implements UserDao {
     public Optional<User> getUserByName(String name) {
         TypedQuery<User> query = entityManager.createQuery(
                 "select u from User u JOIN FETCH u.roles where u.name = :name", User.class);
-        if(name != null) {
+        if (name != null) {
             query.setParameter("name", name);
             return Optional.ofNullable(query.getSingleResult());
         }
-        throw new NoResultException("No name present");
+        throw new NoResultException("No User by: " + name + " present");
     }
 }
